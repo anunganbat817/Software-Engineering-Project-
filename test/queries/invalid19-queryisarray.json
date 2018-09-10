@@ -1,0 +1,20 @@
+{
+    "title": "invalid , IS is string but",
+    "query": {
+        "WHERE": {
+            "IS": { "courses_avg": "85"
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_id"
+            ],
+            "ORDER": "courses_id"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}
+

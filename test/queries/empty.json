@@ -1,0 +1,7 @@
+{"title": "empty",
+"query": {},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

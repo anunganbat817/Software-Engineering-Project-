@@ -1,0 +1,34 @@
+{"title": "invalid 424",
+    "query": {
+    "WHERE":{
+        "NOT":
+{"NOT": {
+    "AND": [
+        {
+            "GT": {
+                "courser_avg": 92
+            }
+        },
+        {
+            "IS": {
+                "courses_dept": "adhe"
+            }
+        }
+    ]
+}
+}
+
+    },
+    "OPTIONS":{
+        "COLUMNS":[
+            "courses_dept",
+            "courses_avg"
+        ],
+        "ORDER":"courses_avg"
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

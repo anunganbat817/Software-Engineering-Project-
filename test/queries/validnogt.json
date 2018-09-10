@@ -1,0 +1,26 @@
+{"title": "valid no GT",
+    "query": {
+        "WHERE":{
+            "AND":[ {
+                "IS":{ "courses_dept": "zool"
+                }
+            },{"GT":{"courses_avg":92}}]
+        },
+        "OPTIONS":{
+        "COLUMNS":[
+            "courses_dept",
+            "courses_avg"
+        ],
+        "ORDER":"courses_avg"
+    }
+},
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [{"courses_dept": "zool", "courses_avg": 92.1},
+                {"courses_dept": "zool", "courses_avg": 92.1},
+                {"courses_dept": "zool", "courses_avg": 92.71},
+                {"courses_dept": "zool", "courses_avg": 92.71}]
+        }
+    }
+}

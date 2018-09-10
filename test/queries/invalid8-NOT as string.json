@@ -1,0 +1,17 @@
+{"title": "invalid not is string, too many parameters",
+    "query": {
+    "WHERE":{
+        "NOT": "ert"
+        },
+
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_dept"
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

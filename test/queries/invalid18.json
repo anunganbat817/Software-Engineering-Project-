@@ -1,0 +1,25 @@
+{"title": "invalid, WHERE is array",
+    "query": {
+        "WHERE": {
+            "GT": {
+                "courses_avg": 98.8
+            },
+            "LT": {
+                "courses_avg": 50
+            }
+        },
+
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_id",
+            "courses_fail",
+            "courses_pass",
+            "courses_avg"
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

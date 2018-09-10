@@ -1,0 +1,55 @@
+{"title": "another valid case",
+    "query": {
+    "WHERE": {
+        "OR": [
+            {
+                "IS": {
+                    "courses_instructor": "*asd"
+                }
+            },
+            {
+                "IS": {
+                    "courses_instructor": "asd*"
+                }
+            },
+            {
+                "IS": {
+                    "courses_instructor": "*asd*"
+                }
+            },
+            {
+                "IS": {
+                    "courses_instructor": "asd"
+                }
+            }
+        ]
+    },
+
+    "OPTIONS":{
+        "COLUMNS":[
+            "courses_dept"
+        ]
+    }
+},
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "pcth"},
+                {"courses_dept": "phys"},
+                {"courses_dept": "phys"},
+                {"courses_dept": "phys"},
+                {"courses_dept": "phys"},
+                {"courses_dept": "phys"},
+                {"courses_dept": "phys"}
+            ]
+        }
+    }
+}

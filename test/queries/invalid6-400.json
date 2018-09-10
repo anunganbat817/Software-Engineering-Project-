@@ -1,0 +1,20 @@
+{ "title": "invalid 400, Order key needs to be included in columns",
+    "query": {
+        "WHERE": {
+            "GT": {
+                "courses_avg": 97
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_avg"
+            ],
+            "ORDER": "courses_awd"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

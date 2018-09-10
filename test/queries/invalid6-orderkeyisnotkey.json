@@ -1,0 +1,21 @@
+{ "title": "invalid 400, Order key is not key",
+    "query": {
+        "WHERE": {
+            "GT": {
+                "courses_avg": 90
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_avg",
+                "courses_awd"
+            ],
+            "ORDER": "courses_awd"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

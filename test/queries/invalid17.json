@@ -1,0 +1,33 @@
+{"title": "invalid 400, order is empty",
+    "query": {
+    "WHERE":{
+        "NOT":
+{"NOT": {
+    "AND": [
+        {
+            "GT": {
+                "courses_avg": 92
+            }
+        },
+        {
+            "IS": {
+                "courses_pass": "adhe"
+            }
+        }
+    ]
+}
+}
+
+    },
+    "OPTIONS":{
+        "COLUMNS": [
+            "courses_pass"
+        ],
+        "ORDER": ""
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

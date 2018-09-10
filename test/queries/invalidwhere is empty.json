@@ -1,0 +1,26 @@
+{
+    "title": "invalid , where is empty",
+    "query": {
+        "WHERE": {
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg",
+                "courses_instructor",
+                "courses_uuid",
+                "courses_pass",
+                "courses_fail",
+                "courses_title",
+                "courses_audit"
+            ],
+            "ORDER": "courses_id"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}
+

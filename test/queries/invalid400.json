@@ -1,0 +1,39 @@
+{"title": "invalid 400, GT must be number",
+    "query": {
+        "WHERE": {
+            "OR": [
+                {
+                    "AND": [
+                        {
+                            "GT": {
+                                "courses_avg": "70"
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept": "adhe"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "EQ": {
+                        "courses_avg": 90
+                    }
+                }
+            ]
+        },
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_dept",
+            "courses_id",
+            "courses_avg"
+        ],
+        "ORDER": "courses_avg"
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

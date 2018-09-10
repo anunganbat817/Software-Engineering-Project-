@@ -1,0 +1,23 @@
+{
+    "title": "invalid 3, course_avg is string",
+    "query": {
+        "WHERE": {
+            "IS": {
+                "courses_avg": "adhe"
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}
+

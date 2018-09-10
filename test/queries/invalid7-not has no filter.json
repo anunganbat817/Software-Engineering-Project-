@@ -1,0 +1,17 @@
+{"title": "invalid not has no filter",
+    "query": {
+    "WHERE":{
+        "NOT": {
+        }
+    },
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_dept"
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

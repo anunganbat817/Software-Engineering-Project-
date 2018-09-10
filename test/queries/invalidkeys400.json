@@ -1,0 +1,62 @@
+{
+    "title": "invalid query, return 400",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "AND": [
+                        {
+                            "AND": [
+                                {
+                                    "IS": {
+                                        "cours_instructor": "*gregor*"
+                                    }
+                                },
+                                {
+                                    "NOT": {
+                                        "LT": {
+                                            "urses_fail": 50
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "IS": {
+                                "coses_dept": "cpsc"
+                            }
+                        },
+                        {
+                            "EQ": {
+                                "courses_pass": 95
+                            }
+                        },
+                        {
+                            "GT": {
+                                "courses_avg": 80
+                            }
+                        }
+                    ]
+                },
+                {
+                    "IS": {
+                        "ces_id": "1"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": null
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}
+

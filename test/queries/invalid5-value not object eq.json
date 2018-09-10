@@ -1,0 +1,18 @@
+{"title": "invalid",
+    "query": {
+    "WHERE":{
+        "NOT": {
+            "EQ": 123
+        }
+    },
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_dept"
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

@@ -1,0 +1,255 @@
+{"title": "SELECT , group by course title, avg WHERE avg > 70 and dept is cpsc",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "GT": {
+                        "courses_avg": 70
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_dept": "cpsc"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_title",
+                "overallAvg"
+            ]
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "courses_title"
+            ],
+            "APPLY": [
+                {
+                    "overallAvg": {
+                        "AVG": "courses_avg"
+                    }
+                }
+            ]
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {
+                    "courses_title": "comptn, progrmng",
+                    "overallAvg": 74.95
+                },
+                {
+                    "courses_title": "model comptn",
+                    "overallAvg": 76.14
+                },
+                {
+                    "courses_title": "sftwr constructn",
+                    "overallAvg": 74.35
+                },
+                {
+                    "courses_title": "intro comp sys",
+                    "overallAvg": 75.18
+                },
+                {
+                    "courses_title": "basic alg&data",
+                    "overallAvg": 75.41
+                },
+                {
+                    "courses_title": "dta&alg elec eng",
+                    "overallAvg": 74.46
+                },
+                {
+                    "courses_title": "basics comp syst",
+                    "overallAvg": 71.45
+                },
+                {
+                    "courses_title": "comptng life sci",
+                    "overallAvg": 81.84
+                },
+                {
+                    "courses_title": "num comp alg prb",
+                    "overallAvg": 76.37
+                },
+                {
+                    "courses_title": "num approx/discr",
+                    "overallAvg": 73.31
+                },
+                {
+                    "courses_title": "intr rel databse",
+                    "overallAvg": 76.3
+                },
+                {
+                    "courses_title": "intr sftwr eng",
+                    "overallAvg": 78.25
+                },
+                {
+                    "courses_title": "programmng langs",
+                    "overallAvg": 77.25
+                },
+                {
+                    "courses_title": "func & logic prg",
+                    "overallAvg": 80.71
+                },
+                {
+                    "courses_title": "comp hard&os",
+                    "overallAvg": 73.98
+                },
+                {
+                    "courses_title": "comp graphics",
+                    "overallAvg": 77.12
+                },
+                {
+                    "courses_title": "internet comp",
+                    "overallAvg": 73.16
+                },
+                {
+                    "courses_title": "softwr eng proj",
+                    "overallAvg": 84.52
+                },
+                {
+                    "courses_title": "intr alg dsgn&an",
+                    "overallAvg": 71.54
+                },
+                {
+                    "courses_title": "artificial intel",
+                    "overallAvg": 73.57
+                },
+                {
+                    "courses_title": "machine lrn mine",
+                    "overallAvg": 76.5
+                },
+                {
+                    "courses_title": "hum-com interact",
+                    "overallAvg": 78.47
+                },
+                {
+                    "courses_title": "adv rel databse",
+                    "overallAvg": 74.95
+                },
+                {
+                    "courses_title": "adv software eng",
+                    "overallAvg": 77.11
+                },
+                {
+                    "courses_title": "compiler constrc",
+                    "overallAvg": 80.18
+                },
+                {
+                    "courses_title": "adv opertng sysm",
+                    "overallAvg": 71.78
+                },
+                {
+                    "courses_title": "distrbt'd systms",
+                    "overallAvg": 74.9
+                },
+                {
+                    "courses_title": "parallel comput",
+                    "overallAvg": 80.51
+                },
+                {
+                    "courses_title": "adv alg dsgn&anl",
+                    "overallAvg": 73.74
+                },
+                {
+                    "courses_title": "theory comptg",
+                    "overallAvg": 75.59
+                },
+                {
+                    "courses_title": "intel systems",
+                    "overallAvg": 74.59
+                },
+                {
+                    "courses_title": "computer vision",
+                    "overallAvg": 73.93
+                },
+                {
+                    "courses_title": "comptr & society",
+                    "overallAvg": 77.39
+                },
+                {
+                    "courses_title": "hmn-cp interactn",
+                    "overallAvg": 78.84
+                },
+                {
+                    "courses_title": "alg in bioin",
+                    "overallAvg": 80.86
+                },
+                {
+                    "courses_title": "honours thesis",
+                    "overallAvg": 90.38
+                },
+                {
+                    "courses_title": "student seminar",
+                    "overallAvg": 89.77
+                },
+                {
+                    "courses_title": "fund alg dsgn&an",
+                    "overallAvg": 83.96
+                },
+                {
+                    "courses_title": "thry of automata",
+                    "overallAvg": 89.77
+                },
+                {
+                    "courses_title": "artif intell 1",
+                    "overallAvg": 82.96
+                },
+                {
+                    "courses_title": "computl ling 1",
+                    "overallAvg": 88.08
+                },
+                {
+                    "courses_title": "software eng",
+                    "overallAvg": 87.44
+                },
+                {
+                    "courses_title": "prog lang princ",
+                    "overallAvg": 86.02
+                },
+                {
+                    "courses_title": "intgrt sys desgn",
+                    "overallAvg": 85.37
+                },
+                {
+                    "courses_title": "comput robotics",
+                    "overallAvg": 81.8
+                },
+                {
+                    "courses_title": "para algs & arch",
+                    "overallAvg": 85.06
+                },
+                {
+                    "courses_title": "artif intell 2",
+                    "overallAvg": 85.16
+                },
+                {
+                    "courses_title": "comp comm protcl",
+                    "overallAvg": 87.48
+                },
+                {
+                    "courses_title": "machine learn i",
+                    "overallAvg": 85.87
+                },
+                {
+                    "courses_title": "phy user intfc",
+                    "overallAvg": 85.78
+                },
+                {
+                    "courses_title": "hmn-cmpt intract",
+                    "overallAvg": 84.31
+                },
+                {
+                    "courses_title": "info visualizatn",
+                    "overallAvg": 88.58
+                },
+                {
+                    "courses_title": "m.sc major essay",
+                    "overallAvg": 85.75
+                }
+            ]
+        }
+    }
+}

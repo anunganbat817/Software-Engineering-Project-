@@ -1,0 +1,32 @@
+{"title": "invalid 400, empty columns",
+    "query": {
+    "WHERE":{
+        "NOT":
+{"NOT": {
+    "AND": [
+        {
+            "GT": {
+                "courses_avg": 92
+            }
+        },
+        {
+            "IS": {
+                "courses_pass": 1
+            }
+        }
+    ]
+}
+}
+
+    },
+    "OPTIONS":{
+        "COLUMNS": [
+
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

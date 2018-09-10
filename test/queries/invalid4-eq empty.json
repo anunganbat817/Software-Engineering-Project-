@@ -1,0 +1,18 @@
+{"title": "invalid 4, eq is empty",
+    "query": {
+    "WHERE":{
+        "NOT": {
+            "EQ": {}
+        }
+    },
+    "OPTIONS": {
+        "COLUMNS": [
+            "courses_dept"
+        ]
+    }
+},
+    "response": {
+        "code": 400,
+        "body": {"error": "my text"}
+    }
+}

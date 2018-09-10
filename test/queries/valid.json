@@ -1,0 +1,41 @@
+{"title": "valid 200",
+    "query": {
+    "WHERE":{
+        "OR":[
+            {
+                "AND":[
+                    {
+                        "GT":{
+                            "courses_avg":96.11
+                        }
+                    },
+                    {
+                        "IS":{
+                            "courses_dept":"adhe"
+                        }
+                    }
+                ]
+            },
+            {
+                "EQ":{
+                    "courses_avg":96.11
+                }
+            }
+        ]
+    },
+    "OPTIONS":{
+        "COLUMNS":[
+            "courses_dept",
+            "courses_id",
+            "courses_avg"
+        ],
+        "ORDER":"courses_avg"
+    }
+},
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [{"courses_dept": "adhe", "courses_id": 329, "courses_avg": 96.11}]
+        }
+    }
+}
