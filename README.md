@@ -12,3 +12,6 @@ built a robust backend for quickly and flexibly querying a diverse dataset
 3. complemented backend with a Web server and a frontend UI such that the software can be deployed and used as a Web application
 - used REST endpoints
 - implemented frontend UI
+
+
+** note node_modules is missing
