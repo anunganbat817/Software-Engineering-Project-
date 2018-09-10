@@ -1,0 +1,64 @@
+{
+    "title": "SELECT , lowest cpsc 110 and 121 averages",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "IS": {
+                        "courses_dept": "cpsc"
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_id": "1*"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "overallAvg",
+                "minAvg"
+            ]
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "courses_dept",
+                "courses_id"
+            ],
+            "APPLY": [
+                {
+                    "overallAvg": {
+                        "AVG": "courses_avg"
+                    }
+                },
+                {
+                    "minAvg": {
+                        "MIN": "courses_avg"
+                    }
+                }
+            ]
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {
+                    "courses_dept": "cpsc",
+                    "courses_id": "110",
+                    "overallAvg": 74.41,
+                    "minAvg": 67.79
+                },
+                {
+                    "courses_dept": "cpsc",
+                    "courses_id": "121",
+                    "overallAvg": 75.54,
+                    "minAvg": 67.13
+                }
+            ]
+        }
+    }
+}

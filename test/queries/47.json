@@ -1,0 +1,64 @@
+{
+    "title": "SELECT , highest cpsc 110 and 121 averages",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "IS": {
+                        "courses_dept": "cpsc"
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_id": "1*"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "overallAvg",
+                "maxAvg"
+            ]
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "courses_dept",
+                "courses_id"
+            ],
+            "APPLY": [
+                {
+                    "overallAvg": {
+                        "AVG": "courses_avg"
+                    }
+                },
+                {
+                    "maxAvg": {
+                        "MAX": "courses_avg"
+                    }
+                }
+            ]
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {
+                    "courses_dept": "cpsc",
+                    "courses_id": "110",
+                    "overallAvg": 74.41,
+                    "maxAvg": 85.46
+                },
+                {
+                    "courses_dept": "cpsc",
+                    "courses_id": "121",
+                    "overallAvg": 75.54,
+                    "maxAvg": 84.56
+                }
+            ]
+        }
+    }
+}

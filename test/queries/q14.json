@@ -1,0 +1,42 @@
+{
+    "title": "courses_avg must be a number",
+    "query": {
+        "WHERE": {
+            "OR": [
+                {
+                    "AND":[
+                        {
+                            "GT": {
+                                "courses_avg":"90"
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept":"adhe"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "EQ": {
+                        "courses_avg":95
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {
+            "error":"Invalid query: GT value should be a number"
+        }
+    }
+}

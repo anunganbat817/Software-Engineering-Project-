@@ -6,18 +6,18 @@ export class Query {
     private stringkeys: any[];
     private numberkeys: any[];
     private validKeys: any[];
-    private hastransformation: boolean;
+    private roomKeys1: any[];
+    private roomKeys2: any[];
+    private roomNumKeys: any[];
 
     constructor(fileparse: any) {
         this.dataid = null;
         this.fileparse = fileparse;
-        this.numberkeys = ["courses_pass", "courses_fail", "courses_avg", "courses_audit", "course_year", "rooms_lat",
-        "rooms_lon", "rooms_seats"];
-        this.stringkeys = ["courses_dept", "courses_id", "courses_instructor", "courses_title", "courses_uuid",
-        "rooms_fullname", "rooms_shortname", "rooms_number", "rooms_name", "rooms_address", "rooms_type",
-            "rooms_furniture", "rooms_href"];
-        this.validKeys = this.numberkeys.concat(this.stringkeys);
-        this.hastransformation = false;
+        this.numberkeys = ["courses_pass", "courses_fail", "courses_avg", "courses_audit", "courses_year"];
+        this.stringkeys = ["courses_dept", "courses_id", "courses_instructor", "courses_title", "courses_uuid"];
+        this.roomKeys1 = ["rooms_fullname", "rooms_shortname", "rooms_number", "rooms_name", "rooms_address"];
+        this.roomKeys2 = ["rooms_type", "rooms_furniture", "rooms_href"];
+        this.roomNumKeys = ["rooms_seats", "rooms_lat", "rooms_lon"];
     }
 
     public queryid(): string {
@@ -28,24 +28,39 @@ export class Query {
         return this.fileparse;
     }
 
+    // public validquery(): boolean {
+    //     const firstkey = Object.keys(this.fileparse);
+    //     if (firstkey.length === 3 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS" &&
+    //         firstkey[2] === "TRANSFORMATIONS") {
+    //         this.hastransformation = true;
+    //         if (this.validfilter(this.fileparse["WHERE"]) &&
+    // this.validtransform(this.fileparse["TRANSFORMATIONS"])) {
+    //         return(this.validoption(this.fileparse["OPTIONS"]));
+    //         }
+    //     }
+    //     if ( firstkey.length === 2 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS") {
+    //         return (this.validfilter(this.fileparse["WHERE"]) && this.validoption(this.fileparse["OPTIONS"]));
+    //     }
+    //     return false;
+    // }
+
     public validquery(): boolean {
         const firstkey = Object.keys(this.fileparse);
-        if (firstkey.length === 3 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS" &&
-            firstkey[2] === "TRANSFORMATIONS") {
-            this.hastransformation = true;
-            if (this.validfilter(this.fileparse["WHERE"]) && this.validtransform(this.fileparse["TRANSFORMATIONS"])) {
-            return(this.validoption(this.fileparse["OPTIONS"]));
+        if (firstkey.length === 2 || 3 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS") {
+            if (firstkey.length === 2) {
+                return (this.validfilter(this.fileparse["WHERE"]) && this.validoption(this.fileparse["OPTIONS"]));
+            } else {
+                return (this.validfilter(this.fileparse["WHERE"])
+                    && this.validoption(this.fileparse["OPTIONS"])
+                    && this.validtransform(this.fileparse["TRANSFORMATIONS"]));
             }
-        }
-        if ( firstkey.length === 2 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS") {
-            return (this.validfilter(this.fileparse["WHERE"]) && this.validoption(this.fileparse["OPTIONS"]));
         }
         return false;
     }
 
     public validtransform(filter: any): boolean {
         const keys = Object.keys(filter);
-        if (keys.length === 2 && keys[0] === "GROUP" && keys[1] === "APPLY" ) {
+        if (keys.length === 2 && keys[0] === "GROUP" && keys[1] === "APPLY") {
             // check if length of group/apply is at least 1 and are arrays
             const groupArray = filter["GROUP"];
             const applyArray = filter["APPLY"];
@@ -66,9 +81,11 @@ export class Query {
             const appKey = Object.keys(app)[0];
             const appToken = app[appKey];
             const token = Object.keys(appToken)[0];
-            if ( !storage.includes(appKey) ) {
+            if (!storage.includes(appKey)) {
                 storage.push(appKey);
-            } else { return false; }
+            } else {
+                return false;
+            }
             if (typeof app !== "object" || appKey.includes("_")) {
                 return false;
             }
@@ -114,7 +131,7 @@ export class Query {
                         return false;
                     } else {
                         if (["courses_avg", "courses_pass", "courses_fail", "courses_audit", "courses_year",
-                            "rooms_lat", "rooms_lon", "rooms_seats"].indexOf(mcomp[0]) !== -1) {
+                                "rooms_lat", "rooms_lon", "rooms_seats"].indexOf(mcomp[0]) !== -1) {
                             const tdataid = mcomp[0].substring(0, mcomp[0].indexOf("_"));
                             if (this.dataid === null) {
                                 this.dataid = tdataid;

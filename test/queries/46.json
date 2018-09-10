@@ -1,0 +1,55 @@
+{
+    "title": "SELECT , all cs courses with 70+ average and sorted by passing students and overallAvg DOWN order",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "GT": {
+                        "courses_avg": 70
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_dept": "cpsc"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "overallAvg",
+                "pass"
+            ],
+            "ORDER": {
+                "dir": "UP",
+                "keys": [
+                    "pass",
+                    "overallAvg"
+                ]
+            }
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "courses_dept",
+                "courses_id"
+            ],
+            "APPLY": [
+                {
+                    "overallAvg": {
+                        "AVG": "courses_avg"
+                    }
+                },
+                {
+                    "pass": {
+                        "SUM": "courses_pass"
+                    }
+                }
+            ]
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {"result":[{"courses_dept":"cpsc","courses_id":"110","overallAvg":74.95,"pass":9558},{"courses_dept":"cpsc","courses_id":"121","overallAvg":76.14,"pass":7413},{"courses_dept":"cpsc","courses_id":"210","overallAvg":74.35,"pass":5430},{"courses_dept":"cpsc","courses_id":"221","overallAvg":75.41,"pass":5190},{"courses_dept":"cpsc","courses_id":"304","overallAvg":76.3,"pass":4876},{"courses_dept":"cpsc","courses_id":"310","overallAvg":78.25,"pass":4854},{"courses_dept":"cpsc","courses_id":"213","overallAvg":75.18,"pass":4447},{"courses_dept":"cpsc","courses_id":"313","overallAvg":73.98,"pass":3974},{"courses_dept":"cpsc","courses_id":"322","overallAvg":73.57,"pass":2945},{"courses_dept":"cpsc","courses_id":"320","overallAvg":71.54,"pass":2907},{"courses_dept":"cpsc","courses_id":"317","overallAvg":73.16,"pass":2321},{"courses_dept":"cpsc","courses_id":"404","overallAvg":74.95,"pass":2188},{"courses_dept":"cpsc","courses_id":"312","overallAvg":80.71,"pass":1940},{"courses_dept":"cpsc","courses_id":"259","overallAvg":74.46,"pass":1730},{"courses_dept":"cpsc","courses_id":"410","overallAvg":77.11,"pass":1702},{"courses_dept":"cpsc","courses_id":"314","overallAvg":77.12,"pass":1659},{"courses_dept":"cpsc","courses_id":"340","overallAvg":76.5,"pass":1580},{"courses_dept":"cpsc","courses_id":"430","overallAvg":77.39,"pass":1566},{"courses_dept":"cpsc","courses_id":"301","overallAvg":81.84,"pass":1450},{"courses_dept":"cpsc","courses_id":"425","overallAvg":73.93,"pass":1246},{"courses_dept":"cpsc","courses_id":"344","overallAvg":78.47,"pass":1090},{"courses_dept":"cpsc","courses_id":"319","overallAvg":84.52,"pass":1022},{"courses_dept":"cpsc","courses_id":"311","overallAvg":77.25,"pass":982},{"courses_dept":"cpsc","courses_id":"416","overallAvg":74.9,"pass":746},{"courses_dept":"cpsc","courses_id":"415","overallAvg":71.78,"pass":714},{"courses_dept":"cpsc","courses_id":"302","overallAvg":76.37,"pass":684},{"courses_dept":"cpsc","courses_id":"303","overallAvg":73.31,"pass":672},{"courses_dept":"cpsc","courses_id":"540","overallAvg":85.87,"pass":656},{"courses_dept":"cpsc","courses_id":"421","overallAvg":75.59,"pass":536},{"courses_dept":"cpsc","courses_id":"420","overallAvg":73.74,"pass":516},{"courses_dept":"cpsc","courses_id":"422","overallAvg":74.59,"pass":424},{"courses_dept":"cpsc","courses_id":"445","overallAvg":80.86,"pass":412},{"courses_dept":"cpsc","courses_id":"411","overallAvg":80.18,"pass":412},{"courses_dept":"cpsc","courses_id":"500","overallAvg":83.96,"pass":356},{"courses_dept":"cpsc","courses_id":"444","overallAvg":78.84,"pass":292},{"courses_dept":"cpsc","courses_id":"418","overallAvg":80.51,"pass":280},{"courses_dept":"cpsc","courses_id":"544","overallAvg":84.31,"pass":276},{"courses_dept":"cpsc","courses_id":"521","overallAvg":85.06,"pass":242},{"courses_dept":"cpsc","courses_id":"502","overallAvg":82.96,"pass":236},{"courses_dept":"cpsc","courses_id":"261","overallAvg":71.45,"pass":236},{"courses_dept":"cpsc","courses_id":"490","overallAvg":89.77,"pass":192},{"courses_dept":"cpsc","courses_id":"503","overallAvg":88.08,"pass":140},{"courses_dept":"cpsc","courses_id":"543","overallAvg":85.78,"pass":136},{"courses_dept":"cpsc","courses_id":"513","overallAvg":85.37,"pass":136},{"courses_dept":"cpsc","courses_id":"507","overallAvg":87.44,"pass":120},{"courses_dept":"cpsc","courses_id":"527","overallAvg":87.48,"pass":118},{"courses_dept":"cpsc","courses_id":"449","overallAvg":90.38,"pass":104},{"courses_dept":"cpsc","courses_id":"522","overallAvg":85.16,"pass":102},{"courses_dept":"cpsc","courses_id":"509","overallAvg":86.02,"pass":100},{"courses_dept":"cpsc","courses_id":"547","overallAvg":88.58,"pass":84},{"courses_dept":"cpsc","courses_id":"501","overallAvg":89.77,"pass":70},{"courses_dept":"cpsc","courses_id":"515","overallAvg":81.8,"pass":70},{"courses_dept":"cpsc","courses_id":"589","overallAvg":85.75,"pass":41}]}    }
+}

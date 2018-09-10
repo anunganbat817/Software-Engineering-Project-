@@ -1,0 +1,33 @@
+{
+    "title": "SELECT dept, id, avg WHERE avg == 75 && dept == phar '' ORDER BY avg",
+    "query": {
+        "WHERE": {
+                    "AND":[
+                        {
+                            "EQ": {
+                                "courses_avg":75
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept":"phar"
+                            }
+                        }
+                    ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg",
+                "courses_instructor"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body":
+        {"result":[{"courses_dept":"phar","courses_id":"401","courses_avg":75,"courses_instructor":"kanji, tamiz jamal;seto, katherine"},{"courses_dept":"phar","courses_id":"401","courses_avg":75,"courses_instructor":"kanji, tamiz jamal;seto, katherine"}]}
+    }
+}

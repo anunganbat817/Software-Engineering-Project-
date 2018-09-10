@@ -4,13 +4,11 @@ class Query {
     constructor(fileparse) {
         this.dataid = null;
         this.fileparse = fileparse;
-        this.numberkeys = ["courses_pass", "courses_fail", "courses_avg", "courses_audit", "course_year", "rooms_lat",
-            "rooms_lon", "rooms_seats"];
-        this.stringkeys = ["courses_dept", "courses_id", "courses_instructor", "courses_title", "courses_uuid",
-            "rooms_fullname", "rooms_shortname", "rooms_number", "rooms_name", "rooms_address", "rooms_type",
-            "rooms_furniture", "rooms_href"];
-        this.validKeys = this.numberkeys.concat(this.stringkeys);
-        this.hastransformation = false;
+        this.numberkeys = ["courses_pass", "courses_fail", "courses_avg", "courses_audit", "courses_year"];
+        this.stringkeys = ["courses_dept", "courses_id", "courses_instructor", "courses_title", "courses_uuid"];
+        this.roomKeys1 = ["rooms_fullname", "rooms_shortname", "rooms_number", "rooms_name", "rooms_address"];
+        this.roomKeys2 = ["rooms_type", "rooms_furniture", "rooms_href"];
+        this.roomNumKeys = ["rooms_seats", "rooms_lat", "rooms_lon"];
     }
     queryid() {
         return this.dataid;
@@ -20,15 +18,15 @@ class Query {
     }
     validquery() {
         const firstkey = Object.keys(this.fileparse);
-        if (firstkey.length === 3 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS" &&
-            firstkey[2] === "TRANSFORMATIONS") {
-            this.hastransformation = true;
-            if (this.validfilter(this.fileparse["WHERE"]) && this.validtransform(this.fileparse["TRANSFORMATIONS"])) {
-                return (this.validoption(this.fileparse["OPTIONS"]));
+        if (firstkey.length === 2 || 3 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS") {
+            if (firstkey.length === 2) {
+                return (this.validfilter(this.fileparse["WHERE"]) && this.validoption(this.fileparse["OPTIONS"]));
             }
-        }
-        if (firstkey.length === 2 && firstkey[0] === "WHERE" && firstkey[1] === "OPTIONS") {
-            return (this.validfilter(this.fileparse["WHERE"]) && this.validoption(this.fileparse["OPTIONS"]));
+            else {
+                return (this.validfilter(this.fileparse["WHERE"])
+                    && this.validoption(this.fileparse["OPTIONS"])
+                    && this.validtransform(this.fileparse["TRANSFORMATIONS"]));
+            }
         }
         return false;
     }

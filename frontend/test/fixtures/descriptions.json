@@ -1,0 +1,8 @@
+{
+    "query1": "simple query IS comparison for department with two columns and old order syntax",
+    "query2": "query2 find rooms at a specific location",
+    "query3": "simple NOT query",
+    "query4": "simple AND query",
+    "query5": "simple AND query for rooms",
+    "query6": "simple AND query with asterisk"
+}

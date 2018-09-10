@@ -1,0 +1,42 @@
+{
+    "title": "course_dept must be a string",
+    "query": {
+        "WHERE": {
+            "OR": [
+                {
+                    "AND": [
+                        {
+                            "GT": {
+                                "courses_avg": 90
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept": 5
+                            }
+                        }
+                    ]
+                },
+                {
+                    "EQ": {
+                        "courses_avg": 75
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {
+            "error": "Invalid query: IS value should be a string"
+        }
+    }
+}

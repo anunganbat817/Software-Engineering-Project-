@@ -1,0 +1,36 @@
+{
+    "title": "SELECT dept, id, avg WHERE avg == 75 || avg > 90 && dept == phar '' ORDER BY avg",
+    "query": {
+        "WHERE": {
+            "OR": [
+                {
+                    "AND": [
+                        {
+                            "GT": {
+                                "courses_avg": 90
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept": "phar"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "EQ": {
+                        "courses_avg": 75
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {}
+    },
+    "response": {
+        "code": 400,
+        "body":
+        {
+            "error": " Nothing in OPTIONS body"
+        }
+    }
+}

@@ -95,6 +95,21 @@ describe("InsightFacade Add/Remove Dataset", function () {
             chai_1.expect(response.code).to.equal(expectedCode);
         }
     }));
+    it("list dataset", () => __awaiter(this, void 0, void 0, function* () {
+        const id = "rooms";
+        const expectedCode = 200;
+        let response;
+        try {
+            response = yield insightFacade.listDatasets();
+        }
+        catch (err) {
+            response = err;
+        }
+        finally {
+            chai_1.expect(response.code).to.equal(expectedCode);
+            global.console.log(response.body);
+        }
+    }));
     it("Should remove existing file on room 204", () => __awaiter(this, void 0, void 0, function* () {
         const id = "rooms";
         const expectedCode = 204;
@@ -129,20 +144,6 @@ describe("InsightFacade Add/Remove Dataset", function () {
         let response;
         try {
             response = yield insightFacade.removeDataset(id);
-        }
-        catch (err) {
-            response = err;
-        }
-        finally {
-            chai_1.expect(response.code).to.equal(expectedCode);
-        }
-    }));
-    it("Should not add empty zipfile (400)", () => __awaiter(this, void 0, void 0, function* () {
-        const id = "empty";
-        const expectedCode = 400;
-        let response;
-        try {
-            response = yield insightFacade.addDataset(id, datasets[id], IInsightFacade_1.InsightDatasetKind.Courses);
         }
         catch (err) {
             response = err;
@@ -306,20 +307,6 @@ describe("InsightFacade Add/Remove Dataset", function () {
         }
     }));
     it("Should not happen when empty passed dataset 404", () => __awaiter(this, void 0, void 0, function* () {
-        const id = "empty";
-        const expectedCode = 404;
-        let response;
-        try {
-            response = yield insightFacade.removeDataset(id);
-        }
-        catch (err) {
-            response = err;
-        }
-        finally {
-            chai_1.expect(response.code).to.equal(expectedCode);
-        }
-    }));
-    it("Should not happen when empty passed dataset 404", () => __awaiter(this, void 0, void 0, function* () {
         const id = "";
         const expectedCode = 404;
         let response;
@@ -431,7 +418,7 @@ describe("InsightFacade Add/Remove Dataset", function () {
             chai_1.expect(response.code).to.equal(expectedCode);
         }
     }));
-    it("Should be valid rooms", () => __awaiter(this, void 0, void 0, function* () {
+    it("Should be add back valid rooms", () => __awaiter(this, void 0, void 0, function* () {
         const id = "rooms";
         const expectedCode = 204;
         let response;
@@ -446,11 +433,25 @@ describe("InsightFacade Add/Remove Dataset", function () {
             chai_1.expect(response.code).to.equal(expectedCode);
         }
     }));
+    it("list courses dataset", () => __awaiter(this, void 0, void 0, function* () {
+        const id = "courses";
+        const expectedCode = 200;
+        let response;
+        try {
+            response = yield insightFacade.listDatasets();
+        }
+        catch (err) {
+            response = err;
+        }
+        finally {
+            chai_1.expect(response.code).to.equal(expectedCode);
+            global.console.log(response.body);
+        }
+    }));
 });
 describe("InsightFacade PerformQuery", () => {
     const datasetsToQuery = {
         courses: "./test/data/courses.zip",
-        rooms: "./test/data/rooms.zip",
     };
     let insightFacade;
     let testQueries = [];

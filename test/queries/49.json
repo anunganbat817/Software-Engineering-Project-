@@ -1,0 +1,52 @@
+{
+    "title": "SELECT , get rooms at this spec lat lon ALRD",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "EQ": {
+                        "rooms_lat": 49.2699
+                    }
+                },
+                {
+                    "EQ": {
+                        "rooms_lon": -123.25318
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "rooms_name",
+                "rooms_seats"
+            ]
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {
+                    "rooms_name": "ALRD_105",
+                    "rooms_seats": 94
+                },
+                {
+                    "rooms_name": "ALRD_112",
+                    "rooms_seats": 20
+                },
+                {
+                    "rooms_name": "ALRD_113",
+                    "rooms_seats": 20
+                },
+                {
+                    "rooms_name": "ALRD_121",
+                    "rooms_seats": 50
+                },
+                {
+                    "rooms_name": "ALRD_B101",
+                    "rooms_seats": 44
+                }
+            ]
+        }
+    }
+}

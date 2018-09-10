@@ -1,11 +1,10 @@
 import fs = require("fs");
-// import par = require("parse5");
-// import * as parse5 from "../../node_modules/parse5/lib/index";
 import {isUndefined} from "util";
 import Log from "../Util";
 import {IGeoResponse, IInsightFacade, InsightDataset, InsightDatasetKind, InsightResponse} from "./IInsightFacade";
 import {Query} from "./Query";
 import TMath from "./TMath";
+
 /**
  * This is the main programmatic entry point for the project.
  */
@@ -21,16 +20,13 @@ export default class InsightFacade implements IInsightFacade {
     }
 
     public addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<InsightResponse> {
+        const that = this;
         return new Promise((fulfill, reject) => {
             if (kind === InsightDatasetKind.Courses) {
-                const that = this;
+                //  const that = this;
                 const jszip = require("jszip");
                 const arraycoursespromise: Array<Promise<any>> = [];
                 let response: InsightResponse;
-                if (content == null || id == null || isUndefined(content) || isUndefined(id)) {
-                    reject({code: 400, body: {error: "empty"}});
-                    // throw new Error();
-                }
                 jszip.loadAsync(content, {base64: true}).then((zip: any) => {
                     const objectkeys = Object.keys(zip.files);
                     if (objectkeys.length === 0) {
@@ -46,16 +42,25 @@ export default class InsightFacade implements IInsightFacade {
                         }
                     }
                     Promise.all(arraycoursespromise).then((result) => {
-                            this.parseInsight(result);
-                            if (this.courselist.length >= 1) {
-                                const parsedJson: string = JSON.stringify(this.courselist);
-                                fs.writeFileSync(id + ".txt", parsedJson);
-                                const numRows = this.courselist.length;
-                                const foo = {id, kind, numRows};
-                                this.dataSets.push(foo);
-                                fulfill({code: 204, body: {result: "successfully added DataSet"}});
-                                global.console.log("what happened here");
+                        this.parseInsight(result);
+                        if (content == null || id == null || isUndefined(content) || isUndefined(id)) {
+                            reject({code: 400, body: {error: "empty"}});
+                            return;
+                        } else {
+                            const parsedJson: string = JSON.stringify(this.courselist);
+                            if (fs.existsSync(id + ".txt")) {
+                                reject({code: 400, body: {error: "exists"}});
+                                return;
+                            } else {
+                                fulfill({code: 204, body: {result: "exists"}});
                             }
+                            fs.writeFileSync(id + ".txt", parsedJson);
+                            const numRows = this.courselist.length;
+                            const foo = {id, kind, numRows};
+                            this.dataSets.push(foo);
+                            fulfill({code: 204, body: {result: "successfully added Dataset"}});
+                            global.console.log("what happened here");
+                        }
                     }).catch(function (err: any) {
                         reject({code: 400, body: {error: "my text"}});
                     });
@@ -63,10 +68,11 @@ export default class InsightFacade implements IInsightFacade {
                     reject({code: 400, body: {error: "my text"}});
                 });
             } else if (kind === InsightDatasetKind.Rooms) {
-                const that = this;
+                // const that = this;
                 const jszip = require("jszip");
                 const arraycoursespromise: Array<Promise<any>> = [];
                 const parsedlist: any[] = [];
+                let lists: any[];
                 const par = require("parse5");
                 let response: InsightResponse;
                 if (content == null || id == null || isUndefined(content) || isUndefined(id)) {
@@ -83,10 +89,10 @@ export default class InsightFacade implements IInsightFacade {
                     for (const name of objectkeys) {
                         const fileobj = zip.files[name];
                         if (!fileobj.dir || fileobj["name"] === "index.htm") {
-                                arraycoursespromise.push(fileobj.async("string").catch((err: any) => {
-                                    reject(response);
-                                }));
-                            }
+                            arraycoursespromise.push(fileobj.async("string").catch((err: any) => {
+                                reject(response);
+                            }));
+                        }
                     }
                     Promise.all(arraycoursespromise).then((result) => {
                         const parsedIndex = par.parse(result[result.length - 1]);
@@ -106,20 +112,26 @@ export default class InsightFacade implements IInsightFacade {
                         }
                         Promise.all(parsedlist).then(function (res) {
                             if (res.length === 0) {
-                                response = {code: 400, body: {error: "empty"}};
-                                reject(response);
+                                reject({code: 400, body: {error: "empty"}});
                             } else {
-                                const parsedJson: string = JSON.stringify(res);
-                                that.courselist.push({id, content: res});
-                                if (fs.existsSync(id + ".txt")) {
-                                    response = {code: 400, body: {error: "error if it already exists"}};
-                                } else {
-                                    response = {code: 204, body: {result: "write it to disk "}};
+                                lists = [];
+                                for (const f of res) {
+                                    lists = lists.concat(f);
                                 }
-                                fs.writeFileSync(id + ".txt", parsedJson);
-                                response = {code: 204, body: {result: "successfully parsed"}};
-                                fulfill(response);
                             }
+                            const parsedJson: string = JSON.stringify(lists);
+                            // that.courselist.push({id, content: lists});
+                            if (fs.existsSync(id + ".txt")) {
+                                reject({code: 400, body: {error: "error if it already exists"}});
+                                return;
+                            } else {
+                                fulfill({code: 204, body: {result: "write it to disk "}});
+                            }
+                            fs.writeFileSync(id + ".txt", parsedJson);
+                            const numRows = lists.length;
+                            const foo = {id, kind, numRows};
+                            that.dataSets.push(foo);
+                            fulfill({code: 204, body: {result: "successfully parsed"}});
                         }).catch(function (err: any) {
                             reject({code: 400, body: {error: "fail"}});
                         });
@@ -128,151 +140,23 @@ export default class InsightFacade implements IInsightFacade {
                     });
                 }).catch(function (err: any) {
                     reject({code: 400, body: {error: "loadAsync error"}});
-                });
+                }); //
             }
         });
     }
-
-    // public addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<InsightResponse> {
-    //     const that = this;
-    //     const jszip = require("jszip");
-    //     return new Promise((fulfill, reject) => {
-    //         const arraycoursespromise: Array<Promise<string>> = [];
-    //         let response: InsightResponse;
-    //         jszip.loadAsync(content, {base64: true}).then((zip: any) => {
-    //             const objectkeys = Object.keys(zip.files);
-    //             if (objectkeys.length === 0) {
-    //                 response = {code: 400, body: {error: "unsuccessful"}};
-    //                 reject(response);
-    //             }
-    //
-    //             // if it is room
-    //             // jszip.file('index.htm').async(t).then(function (html) {
-    //             //  parse html
-    //             // get list of paths of builds
-    //             // for each path {
-    //             //  jszip.file(path).then()
-    //             // }
-    //             // })
-    //
-    //             for (const name of objectkeys) {
-    //                 const fileobj = zip.files[name];
-    //                 if (!fileobj.dir) {
-    //                     arraycoursespromise.push(fileobj.async("string").catch((err: any) => {
-    //                         reject(response);
-    //                     }));
-    //                 }
-    //             }
-    //
-    //             // objectkeys.forEach((obj, i) => {
-    //             //     // if (i === 10 || (i > 12 && i % 2 === 1 && i < 164) || i === 167) {
-    //             //     // get the name of the file , to make sure that the name of the file is not directory
-    //             //     // file name is courses?
-    //             //     const filename = objectkeys[i];
-    //             //     const file = zip.files[filename];
-    //             //     if (!file["dir"]) {
-    //             //         arraycoursespromise.push(file.async("string").catch((err: any) => {
-    //             //             reject(err);
-    //             //         })); }
-    //             //     // }
-    //             // });
-    //             Promise.all(arraycoursespromise).then((result) => {
-    //                 // let lists: any[];
-    //                 // lists = [];
-    //                 // if (kind === InsightDatasetKind.Courses) {
-    //                     this.parseInsight(result);
-    //                     if (this.courselist.length >= 1) {
-    //                         const parsedJson: string = JSON.stringify(this.courselist);
-    //                         fs.writeFileSync(id + ".txt", parsedJson);
-    //                         const numRows = this.courselist.length;
-    //                         const foo = {id, kind, numRows};
-    //                         this.dataSets.push(foo);
-    //                         fulfill({code: 204, body: {result: "successfully added DataSet"}});
-    //                     } else {
-    //                         reject({code: 400, body: {error: "Invalid data from promise.all"}});
-    //                     }
-    //                 let lists: any[];
-    //                 lists = [];
-    //                 if (kind === InsightDatasetKind.Courses) {
-    //                     for (const res of result) {
-    //                         try {
-    //                             const jsonObj = JSON.parse(res);
-    //                             this.parseInsight(res);
-    //                         } catch (err) { //
-    //                         }
-    //                     }
-    //                     if (this.courselist.length >= 1) {
-    //                                 const parsedJson: string = JSON.stringify(this.courselist);
-    //                                 fs.writeFileSync(id + ".txt", parsedJson);
-    //                                 const numRows = this.courselist.length;
-    //                                 const foo = {id, kind, numRows};
-    //                                 this.dataSets.push(foo);
-    //                                 fulfill({code: 204, body: {result: "successfully added DataSet"}});
-    //                             } else {
-    //                                 reject({code: 400, body: {error: "Invalid data from promise.all"}});
-    //                             }
-    //                 } else if (kind === InsightDatasetKind.Rooms) {
-    //                     const parsedlist = [];
-    //                     const par = require("parse5");
-    //                     const parsedIndex = par.parse(result[result.length - 1]);
-    //                     const tbody = that.bodytag(parsedIndex.childNodes[6], []);
-    //                     that.buildingnametbody(tbody);
-    //                     for (const results of result) {
-    //                         try {
-    //                             const shortname = that.getstring(results, '<link rel="canonical" href="', '" />');
-    //                             // returns the position of the first occurrence of a specified value in a string
-    //                             if (that.buildingname.indexOf(shortname) > -1) {
-    //                                 const parsedRoom = this.htmlparse(results);
-    //                                 parsedlist.push(parsedRoom);
-    //                             }
-    //                         } catch (e) {
-    //                             global.console.log("invalid data file"); }
-    //                     }
-    //                     Promise.all(parsedlist).then(function (res) {
-    //                         if (res.length === 0) {
-    //                             response = {code: 400, body: {error: "empty"}};
-    //                             reject(response);
-    //                         } else {
-    //                             const parsedJson: string = JSON.stringify(res);
-    //                             that.courselist.push({id, content: res});
-    //                             let code: number;
-    //                             if (fs.existsSync(id + ".txt")) {
-    //                                 code = 400;
-    //                             } else {
-    //                                 code = 204; }
-    //                             fs.writeFileSync(id + ".txt", parsedJson);
-    //                             response = {code, body: {result: "successfully parsed"}};
-    //                             fulfill(response);
-    //                         }
-    //                     }).catch(function (err) {
-    //                         global.console.log(err);
-    //                     });
-    //                 } else {
-    //                     response = {code: 400, body: {error: "wrong kind"}};
-    //                     reject(response);
-    //                 }
-    //             }).catch((err) => {
-    //                 response = {code: 400, body: {error: "promise all fails"}};
-    //                 reject(response);
-    //             });
-    //         }).catch((res: any) => {
-    //             response = {code: 400, body: {error: "loadAsync error"}};
-    //             reject(response);
-    //         });
-    //     });
-    // }
 
     public removeDataset(id: string): Promise<InsightResponse> {
         return new Promise((fullfill, reject) => {
             let response: InsightResponse;
             fs.unlink(id + ".txt", (err: any) => {
                 if (!err) {
-                    for (const part of this.courselist) {
+                    for (const part of this.dataSets) {
                         if (part.id === id) {
                             // add new elements and remove old elements
-                            this.courselist.splice(this.courselist.indexOf(part), 1);
+                            this.dataSets.splice(this.dataSets.indexOf(part), 1);
                         }
                     }
+                    //
                     response = {code: 204, body: {result: "deleted the dataset"}};
                     fullfill(response);
                 } else {
@@ -311,6 +195,7 @@ export default class InsightFacade implements IInsightFacade {
             rooms_furniture: roomfurniture,
             rooms_href: roomhref,
         };
+        // this.courselist.push(id, roomobject);
         return (roomobject);
     }
 
@@ -406,7 +291,7 @@ export default class InsightFacade implements IInsightFacade {
                 latlon = resu;
                 const lat = latlon.lat;
                 const lon = latlon.lon;
-
+                // let id: string;
                 const roomlists = [];
                 // room info,  // '<tbody>' gets room information and '</tbody>' ends the room information
                 let roomsection = that.getstring(html, "<tbody>", "</tbody>");
@@ -426,48 +311,31 @@ export default class InsightFacade implements IInsightFacade {
         });
     }
 
-    // public nameconvention () {
-    //     const myRoom = {
-    //         rooms_fullname: "roomsFullname",
-    //         rooms_shortname: "roomsShortname",
-    //         rooms_name: "roomsName",
-    //         rooms_number: "roomsNumber",
-    //         rooms_address: "roomsAddress",
-    //         rooms_lat: "roomsLat",
-    //         rooms_lon: "roomsLon",
-    //         rooms_seats: "roomsSeats",
-    //         rooms_type: "roomsType",
-    //         rooms_furniture: "roomsFurniture",
-    //         rooms_href: "roomsHref",
-    //     };
-    // }
-    // public checkvalidity(obj: any): any {
-    //     if (obj.length !== 0) {
-    //         this.parseInsight(obj);
-    //     }
-    // }
-
     public parseInsight(result: any) {
+        let year: number;
         for (const each of result) {
             const jsonObj = JSON.parse(each);
             const jsonArray = jsonObj.result;
             if (jsonArray !== undefined && jsonArray.length !== 0) {
                 for (const item of jsonArray) {
                     if (item["Section"] !== undefined || item["Section"] !== "overall") {
-                        const myCourse = {
-                            courses_dept: item["Subject"],
-                            courses_id: item["Course"],
-                            courses_avg: item["Avg"],
-                            courses_instructor: item["Professor"],
-                            courses_title: item["Title"],
-                            courses_pass: item["Pass"],
-                            courses_fail: item["Fail"],
-                            courses_audit: item["Audit"],
-                            courses_uuid: (item["id"]).toString(),
-                            courses_year: item["Year"],
-                        };
-                        this.courselist.push(myCourse);
+                        year = 1900;
+                    } else {
+                        year = Number(item["Year"]);
                     }
+                    const myCourse = {
+                        courses_dept: item["Subject"],
+                        courses_id: item["Course"],
+                        courses_avg: item["Avg"],
+                        courses_instructor: item["Professor"],
+                        courses_title: item["Title"],
+                        courses_pass: item["Pass"],
+                        courses_fail: item["Fail"],
+                        courses_audit: item["Audit"],
+                        courses_uuid: (item["id"]).toString(),
+                        courses_year: year,
+                    };
+                    this.courselist.push(myCourse);
                 }
             }
         }
@@ -477,7 +345,7 @@ export default class InsightFacade implements IInsightFacade {
         return new Promise<InsightResponse>((resolve, reject) => {
             const aquery = new Query(query);
             if (!aquery.validquery()) {
-                return reject({code: 400, body: {error: "unsuccessful, incorrect query format"}});
+                reject({code: 400, body: {error: "unsuccessful, incorrect query format"}});
             }
             try {
                 const id = aquery.queryid();

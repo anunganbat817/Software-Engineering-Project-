@@ -1,0 +1,33 @@
+{
+    "title": "empty AND cond",
+    "query": {
+        "WHERE": {
+            "OR": [
+                {
+                    "AND":[
+
+                    ]
+                },
+                {
+                    "EQ": {
+                        "courses_avg":99
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {
+            "error": " Improper querry, AND must have atleast one cond "
+        }
+    }
+}

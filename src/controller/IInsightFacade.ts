@@ -1,5 +1,3 @@
-import * as JSZip from "jszip";
-import {JSZipObject} from "jszip";
 /*
  * This is the primary high-level API for the project. In this folder there should be:
  * A class called InsightFacade, this should be in a file called InsightFacade.ts.
@@ -113,6 +111,14 @@ export interface IInsightFacade {
      * Return codes:
      * 200: The list of added datasets was sucessfully returned.
      */
+
+    /**
+     * Take the result from async (JSZip library) on each file and
+     * parse data and store into data structure with the items you want from
+     * the content.
+     *
+     * @param fileContent The content to be parsed and stored into a data structure
+     */
     listDatasets(): Promise<InsightResponse>;
 }
 
@@ -120,4 +126,5 @@ export interface IGeoResponse {
     lat?: number;
     lon?: number;
     error?: string;
+
 }

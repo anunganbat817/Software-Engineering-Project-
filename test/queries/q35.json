@@ -1,0 +1,24 @@
+{
+    "title": "OR must have atleast one cond",
+    "query": {
+        "WHERE": {
+            "OR": [
+
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 400,
+        "body": {
+           "error": "OR must have atleast one cond"
+        }
+    }
+}

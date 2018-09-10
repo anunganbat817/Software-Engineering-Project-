@@ -1,0 +1,166 @@
+{
+    "query1": {
+        "WHERE": {
+            "IS": {
+                "courses_dept": "cpsc"
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id"
+            ],
+            "ORDER": "courses_id"
+        }
+    },
+    "query2": {
+        "WHERE": {
+            "AND": [
+                {
+                    "EQ": {
+                        "rooms_lat": 49.2699
+                    }
+                },
+                {
+                    "EQ": {
+                        "rooms_lon": -123.25318
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "rooms_name",
+                "rooms_seats"
+            ]
+        }
+    },
+    "query3": {
+        "WHERE": {
+            "NOT": {
+                "GT": {
+                    "courses_avg": 55
+                }
+            }
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_avg"
+            ]
+        }
+    },
+    "query4": {
+        "WHERE": {
+            "AND": [
+                {
+                    "GT": {
+                        "courses_avg": 80
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_instructor": "*wolf*"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg",
+                "courses_instructor"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "query5": {
+        "WHERE": {
+            "AND": [
+                {
+                    "IS": {
+                        "rooms_furniture": "*Tables*"
+                    }
+                },
+                {
+                    "GT": {
+                        "rooms_seats": 300
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "rooms_shortname",
+                "maxSeats"
+            ],
+            "ORDER": {
+                "dir": "DOWN",
+                "keys": [
+                    "maxSeats"
+                ]
+            }
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "rooms_shortname"
+            ],
+            "APPLY": [
+                {
+                    "maxSeats": {
+                        "MAX": "rooms_seats"
+                    }
+                }
+            ]
+        }
+    },
+    "query6": {
+        "WHERE": {
+            "AND": [
+                {
+                    "IS": {
+                        "courses_dept": "cpsc"
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_id": "1*"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "overallAvg",
+                "pass",
+                "fail"
+            ]
+        },
+        "TRANSFORMATIONS": {
+            "GROUP": [
+                "courses_dept",
+                "courses_id"
+            ],
+            "APPLY": [
+                {
+                    "overallAvg": {
+                        "AVG": "courses_avg"
+                    }
+                },
+                {
+                    "pass": {
+                        "SUM": "courses_pass"
+                    }
+                },
+                {
+                    "fail": {
+                        "SUM": "courses_fail"
+                    }
+                }
+            ]
+        }
+    }
+}

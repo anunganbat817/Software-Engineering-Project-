@@ -1,0 +1,220 @@
+{
+    "title": "get dept with cs in name and avg > 85 ",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "GT": {
+                        "courses_avg": 85
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_dept": "*cs*"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": [
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 85.4
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 85.4
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 85.67
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 85.67
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 86
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 86
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "502",
+                    "courses_avg": 86
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 86
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "502",
+                    "courses_avg": 86
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 86.33
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 86.45
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 86.45
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 87
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 87
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 87.2
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 87.2
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 87.37
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 87.37
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 87.67
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "502",
+                    "courses_avg": 87.8
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "502",
+                    "courses_avg": 87.8
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "501",
+                    "courses_avg": 87.83
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 88.3
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 88.3
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 88.5
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 88.52
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 88.52
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 88.68
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 88.68
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 88.75
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 89.31
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "500",
+                    "courses_avg": 89.31
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 89.68
+                },
+                {
+                    "courses_dept": "cics",
+                    "courses_id": "530",
+                    "courses_avg": 89.68
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 90
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 93.67
+                },
+                {
+                    "courses_dept": "ccst",
+                    "courses_id": "503",
+                    "courses_avg": 93.67
+                }
+            ]
+        }
+    }
+}
+

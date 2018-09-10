@@ -1,0 +1,36 @@
+{
+    "title": "SELECT dept, id, avg WHERE avg == 85 && dept ends with cs '' ORDER BY avg",
+    "query": {
+        "WHERE": {
+            "AND":[
+                {
+                    "GT": {
+                        "courses_avg":85
+                    }
+                },
+                {
+                    "IS": {
+                        "courses_dept":"*cs"
+                    }
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg",
+                "courses_instructor"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body":
+        {
+            "result":[{"courses_dept":"cics","courses_id":"530","courses_avg":86,"courses_instructor":""},{"courses_dept":"cics","courses_id":"530","courses_avg":86,"courses_instructor":""},{"courses_dept":"cics","courses_id":"530","courses_avg":87.37,"courses_instructor":"tsiknis, georgios"},{"courses_dept":"cics","courses_id":"530","courses_avg":87.37,"courses_instructor":""},{"courses_dept":"cics","courses_id":"530","courses_avg":88.52,"courses_instructor":"tsiknis, georgios"},{"courses_dept":"cics","courses_id":"530","courses_avg":88.52,"courses_instructor":""},{"courses_dept":"cics","courses_id":"530","courses_avg":88.68,"courses_instructor":"tsiknis, georgios"},{"courses_dept":"cics","courses_id":"530","courses_avg":88.68,"courses_instructor":""},{"courses_dept":"cics","courses_id":"530","courses_avg":89.68,"courses_instructor":"tsiknis, georgios"},{"courses_dept":"cics","courses_id":"530","courses_avg":89.68,"courses_instructor":""}]
+        }
+    }
+}
+

@@ -1,0 +1,34 @@
+{
+    "title": "SELECT instructor with wolf in name and avg > 80 ORDER BY avg",
+    "query": {
+        "WHERE": {
+                    "AND":[
+                        {
+                            "GT": {
+                                "courses_avg":80
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_instructor":"*wolf*"
+                            }
+                        }
+                    ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg",
+                "courses_instructor"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result":[{"courses_dept":"cpsc","courses_id":"344","courses_avg":80.11,"courses_instructor":"wolfman, steven"},{"courses_dept":"cpsc","courses_id":"311","courses_avg":80.15,"courses_instructor":"wolfman, steven"},{"courses_dept":"cpsc","courses_id":"121","courses_avg":80.2,"courses_instructor":"wolfman, steven"},{"courses_dept":"chem","courses_id":"527","courses_avg":80.92,"courses_instructor":"wolf, michael"},{"courses_dept":"chem","courses_id":"527","courses_avg":81.31,"courses_instructor":"wolf, michael"},{"courses_dept":"cpsc","courses_id":"221","courses_avg":82.45,"courses_instructor":"wolfman, steven"},{"courses_dept":"chem","courses_id":"527","courses_avg":84.5,"courses_instructor":"wolf, michael"},{"courses_dept":"chem","courses_id":"529","courses_avg":86.82,"courses_instructor":"wolf, michael"},{"courses_dept":"cpsc","courses_id":"490","courses_avg":92,"courses_instructor":"wolfman, steven"}]}
+
+    }
+}

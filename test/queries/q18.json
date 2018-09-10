@@ -1,0 +1,33 @@
+{
+    "title": " avg WHERE  avg > 75 && avg < 75 , not possible ",
+    "query": {
+        "WHERE": {
+                    "AND":[
+                        {
+                            "GT": {
+                                "courses_avg":75
+                            }
+                        },
+                        {
+                            "LT": {
+                                "courses_avg":75
+                            }
+                        }
+                    ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body": {
+            "result": []
+        }
+    }
+}

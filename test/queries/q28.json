@@ -1,0 +1,53 @@
+{
+    "title": "SELECT dept, id, avg WHERE avg < 50 && avg > 50 && dept == phar triple AND ",
+    "query": {
+        "WHERE": {
+            "AND": [
+                {
+                    "AND":[
+                        {
+                            "LT": {
+                                "courses_avg":50
+                            }
+                        },
+                        {
+                            "IS": {
+                                "courses_dept":"phar"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "AND":[
+                        {
+                            "GT": {
+                                "courses_avg": 50
+                                }
+                        },
+                        {
+                        "IS": {
+                            "courses_dept": "phar"
+                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        "OPTIONS": {
+            "COLUMNS": [
+                "courses_dept",
+                "courses_id",
+                "courses_avg"
+            ],
+            "ORDER": "courses_avg"
+        }
+    },
+    "response": {
+        "code": 200,
+        "body":  {
+            "result":[]
+        }
+    }
+
+
+}

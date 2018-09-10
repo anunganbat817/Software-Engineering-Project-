@@ -15,15 +15,12 @@ class InsightFacade {
         Util_1.default.trace("InsightFacadeImpl::init()");
     }
     addDataset(id, content, kind) {
+        const that = this;
         return new Promise((fulfill, reject) => {
             if (kind === IInsightFacade_1.InsightDatasetKind.Courses) {
-                const that = this;
                 const jszip = require("jszip");
                 const arraycoursespromise = [];
                 let response;
-                if (content == null || id == null || util_1.isUndefined(content) || util_1.isUndefined(id)) {
-                    reject({ code: 400, body: { error: "empty" } });
-                }
                 jszip.loadAsync(content, { base64: true }).then((zip) => {
                     const objectkeys = Object.keys(zip.files);
                     if (objectkeys.length === 0) {
@@ -40,13 +37,24 @@ class InsightFacade {
                     }
                     Promise.all(arraycoursespromise).then((result) => {
                         this.parseInsight(result);
-                        if (this.courselist.length >= 1) {
+                        if (content == null || id == null || util_1.isUndefined(content) || util_1.isUndefined(id)) {
+                            reject({ code: 400, body: { error: "empty" } });
+                            return;
+                        }
+                        else {
                             const parsedJson = JSON.stringify(this.courselist);
+                            if (fs.existsSync(id + ".txt")) {
+                                reject({ code: 400, body: { error: "exists" } });
+                                return;
+                            }
+                            else {
+                                fulfill({ code: 204, body: { result: "exists" } });
+                            }
                             fs.writeFileSync(id + ".txt", parsedJson);
                             const numRows = this.courselist.length;
                             const foo = { id, kind, numRows };
                             this.dataSets.push(foo);
-                            fulfill({ code: 204, body: { result: "successfully added DataSet" } });
+                            fulfill({ code: 204, body: { result: "successfully added Dataset" } });
                             global.console.log("what happened here");
                         }
                     }).catch(function (err) {
@@ -57,10 +65,10 @@ class InsightFacade {
                 });
             }
             else if (kind === IInsightFacade_1.InsightDatasetKind.Rooms) {
-                const that = this;
                 const jszip = require("jszip");
                 const arraycoursespromise = [];
                 const parsedlist = [];
+                let lists;
                 const par = require("parse5");
                 let response;
                 if (content == null || id == null || util_1.isUndefined(content) || util_1.isUndefined(id)) {
@@ -99,22 +107,27 @@ class InsightFacade {
                         }
                         Promise.all(parsedlist).then(function (res) {
                             if (res.length === 0) {
-                                response = { code: 400, body: { error: "empty" } };
-                                reject(response);
+                                reject({ code: 400, body: { error: "empty" } });
                             }
                             else {
-                                const parsedJson = JSON.stringify(res);
-                                that.courselist.push({ id, content: res });
-                                if (fs.existsSync(id + ".txt")) {
-                                    response = { code: 400, body: { error: "error if it already exists" } };
+                                lists = [];
+                                for (const f of res) {
+                                    lists = lists.concat(f);
                                 }
-                                else {
-                                    response = { code: 204, body: { result: "write it to disk " } };
-                                }
-                                fs.writeFileSync(id + ".txt", parsedJson);
-                                response = { code: 204, body: { result: "successfully parsed" } };
-                                fulfill(response);
                             }
+                            const parsedJson = JSON.stringify(lists);
+                            if (fs.existsSync(id + ".txt")) {
+                                reject({ code: 400, body: { error: "error if it already exists" } });
+                                return;
+                            }
+                            else {
+                                fulfill({ code: 204, body: { result: "write it to disk " } });
+                            }
+                            fs.writeFileSync(id + ".txt", parsedJson);
+                            const numRows = lists.length;
+                            const foo = { id, kind, numRows };
+                            that.dataSets.push(foo);
+                            fulfill({ code: 204, body: { result: "successfully parsed" } });
                         }).catch(function (err) {
                             reject({ code: 400, body: { error: "fail" } });
                         });
@@ -132,9 +145,9 @@ class InsightFacade {
             let response;
             fs.unlink(id + ".txt", (err) => {
                 if (!err) {
-                    for (const part of this.courselist) {
+                    for (const part of this.dataSets) {
                         if (part.id === id) {
-                            this.courselist.splice(this.courselist.indexOf(part), 1);
+                            this.dataSets.splice(this.dataSets.indexOf(part), 1);
                         }
                     }
                     response = { code: 204, body: { result: "deleted the dataset" } };
@@ -258,26 +271,31 @@ class InsightFacade {
         });
     }
     parseInsight(result) {
+        let year;
         for (const each of result) {
             const jsonObj = JSON.parse(each);
             const jsonArray = jsonObj.result;
             if (jsonArray !== undefined && jsonArray.length !== 0) {
                 for (const item of jsonArray) {
                     if (item["Section"] !== undefined || item["Section"] !== "overall") {
-                        const myCourse = {
-                            courses_dept: item["Subject"],
-                            courses_id: item["Course"],
-                            courses_avg: item["Avg"],
-                            courses_instructor: item["Professor"],
-                            courses_title: item["Title"],
-                            courses_pass: item["Pass"],
-                            courses_fail: item["Fail"],
-                            courses_audit: item["Audit"],
-                            courses_uuid: (item["id"]).toString(),
-                            courses_year: item["Year"],
-                        };
-                        this.courselist.push(myCourse);
+                        year = 1900;
                     }
+                    else {
+                        year = Number(item["Year"]);
+                    }
+                    const myCourse = {
+                        courses_dept: item["Subject"],
+                        courses_id: item["Course"],
+                        courses_avg: item["Avg"],
+                        courses_instructor: item["Professor"],
+                        courses_title: item["Title"],
+                        courses_pass: item["Pass"],
+                        courses_fail: item["Fail"],
+                        courses_audit: item["Audit"],
+                        courses_uuid: (item["id"]).toString(),
+                        courses_year: year,
+                    };
+                    this.courselist.push(myCourse);
                 }
             }
         }
@@ -286,7 +304,7 @@ class InsightFacade {
         return new Promise((resolve, reject) => {
             const aquery = new Query_1.Query(query);
             if (!aquery.validquery()) {
-                return reject({ code: 400, body: { error: "unsuccessful, incorrect query format" } });
+                reject({ code: 400, body: { error: "unsuccessful, incorrect query format" } });
             }
             try {
                 const id = aquery.queryid();
